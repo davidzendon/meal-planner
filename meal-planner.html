@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Meal Planner</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Lucide icons as inline SVG components
+        const ShoppingCart = ({ size = 24, style = {} }) => (
+          <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        );
+
+        const Info = ({ size = 24, style = {} }) => (
+          <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}>
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+        );
+
+        // Recipe Database
+        const RECIPES = {
+          'vegan-saag': {
+            id: 'vegan-saag',
+            name: 'Vegan Saag',
+            servings: 4,
+            prepTime: '15 min',
+            cookTime: '30 min',
+            summary: "Kenji's vegan saag with miso-marinated baked tofu cubes in creamy spinach curry.",
+            steps: [
+              "Preheat oven to 375°F. Press tofu to remove excess moisture, then cut into 1.5-inch cubes.",
+              "Whisk together miso paste, lemon juice, lemon zest, and 1 tbsp oil. Toss tofu in marinade and spread on baking sheet. Bake 20 minutes until golden.",
+              "While tofu bakes, heat oil in large pot over medium heat. Add onion and cook until softened, about 5 minutes.",
+              "Add garlic, ginger, garam masala, cumin, coriander, and turmeric. Cook until fragrant, about 1 minute.",
+              "Add spinach in batches, letting each batch wilt before adding more. Cook until all spinach is wilted, about 5-7 minutes.",
+              "Transfer spinach mixture to blender with coconut cream. Blend until smooth and creamy.",
+              "Return sauce to pot, season with salt, and gently fold in baked tofu. Simmer 2-3 minutes to heat through.",
+              "Garnish with sliced scallions and serve over rice or with naan."
+            ],
+            ingredients: [
+              { item: 'extra firm tofu', amount: 14, unit: 'oz', category: 'protein', store: 'yesmeal' },
+              { item: 'fresh spinach', amount: 1, unit: 'lb', category: 'produce', store: 'traderjoes' },
+              { item: 'onion', amount: 1, unit: 'large', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'scallions', amount: 1, unit: 'bunch', category: 'produce', store: 'traderjoes' },
+              { item: 'lemon', amount: 1, unit: 'whole', category: 'produce', store: 'traderjoes' },
+              { item: 'coconut cream', amount: 1, unit: 'can (13.5oz)', category: 'pantry', store: 'traderjoes' },
+              { item: 'white miso paste', amount: 2, unit: 'tbsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'garlic', amount: 6, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'fresh ginger', amount: 2, unit: 'inch piece', category: 'staple', store: 'traderjoes' },
+              { item: 'garam masala', amount: 2, unit: 'tsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'ground cumin', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'ground coriander', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'turmeric', amount: 0.5, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'neutral oil', amount: 3, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'salt', amount: 1, unit: 'to taste', category: 'staple', store: 'any' },
+            ]
+          },
+          'lentil-soup': {
+            id: 'lentil-soup',
+            name: 'Easy Lentil Soup',
+            servings: 6,
+            prepTime: '10 min',
+            cookTime: '45 min',
+            summary: "Kenji's easy lentil soup with bright lemon-parsley gremolata.",
+            steps: [
+              "Rinse lentils and pick through for any stones or debris.",
+              "Heat olive oil in large pot over medium heat. Add diced onion, carrots, and celery. Sauté until softened, about 8-10 minutes.",
+              "Add minced garlic and cook until fragrant, about 1 minute.",
+              "Add lentils, vegetable broth, bay leaves, salt, and pepper. Bring to a boil.",
+              "Reduce heat and simmer uncovered until lentils are completely tender, about 40-45 minutes. Stir occasionally and add water if soup becomes too thick.",
+              "While soup simmers, make gremolata: Combine lemon zest, chopped parsley, and lemon juice in a small bowl.",
+              "Remove bay leaves from soup. Taste and adjust seasoning.",
+              "Ladle soup into bowls and top each serving with a spoonful of gremolata. Drizzle with olive oil if desired."
+            ],
+            ingredients: [
+              { item: 'onion', amount: 1, unit: 'medium', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'carrots', amount: 2, unit: 'large', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'celery', amount: 2, unit: 'stalks', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'fresh parsley', amount: 1, unit: 'bunch', category: 'produce', store: 'traderjoes' },
+              { item: 'lemon', amount: 1, unit: 'whole', category: 'produce', store: 'traderjoes' },
+              { item: 'brown lentils', amount: 1.5, unit: 'cups', category: 'staple', store: 'traderjoes' },
+              { item: 'garlic', amount: 6, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'olive oil', amount: 3, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'vegetable broth', amount: 6, unit: 'cups', category: 'staple-check', store: 'traderjoes' },
+              { item: 'bay leaves', amount: 2, unit: 'leaves', category: 'staple', store: 'any' },
+              { item: 'salt & pepper', amount: 1, unit: 'to taste', category: 'staple', store: 'any' },
+            ]
+          },
+          'tofu-salad': {
+            id: 'tofu-salad',
+            name: 'Arugula Baked Tofu Salad',
+            servings: 3,
+            prepTime: '10 min',
+            cookTime: '25 min',
+            summary: "Simple marinated baked tofu on peppery arugula with peanut dressing.",
+            steps: [
+              "Preheat oven to 400°F. Press tofu firmly between paper towels to remove excess moisture. Cut into 3/4-inch cubes.",
+              "Make marinade: Mix soy sauce, liquid smoke, minced garlic, and grated ginger in a bowl.",
+              "Add tofu cubes and toss gently to coat. Let marinate 10 minutes.",
+              "Spread tofu on parchment-lined baking sheet in single layer. Bake 20-25 minutes, flipping halfway, until golden and crispy on edges.",
+              "While tofu bakes, thinly slice red onion and roughly chop scallions.",
+              "In large bowl, toss arugula with sliced red onion.",
+              "Drizzle with Trader Joe's peanut satay dressing and toss to coat lightly.",
+              "Top salad with warm baked tofu cubes and garnish with scallions. Serve immediately."
+            ],
+            ingredients: [
+              { item: 'arugula', amount: 5, unit: 'oz', category: 'produce', store: 'traderjoes' },
+              { item: 'extra firm tofu', amount: 14, unit: 'oz', category: 'protein', store: 'yesmeal' },
+              { item: 'red onion', amount: 0.5, unit: 'small', category: 'produce', store: 'traderjoes' },
+              { item: 'scallions', amount: 1, unit: 'bunch', category: 'produce', store: 'traderjoes' },
+              { item: "TJ's peanut satay dressing", amount: 1, unit: 'bottle', category: 'staple-check', store: 'traderjoes' },
+              { item: 'soy sauce', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'liquid smoke', amount: 0.5, unit: 'tsp', category: 'staple-check', store: 'traderjoes' },
+              { item: 'garlic', amount: 2, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'fresh ginger', amount: 1, unit: 'inch piece', category: 'staple', store: 'traderjoes' },
+            ]
+          },
+          'vodka-pasta': {
+            id: 'vodka-pasta',
+            name: 'Pasta with Vodka Sauce',
+            servings: 4,
+            prepTime: '15 min',
+            cookTime: '25 min',
+            summary: "Creamy vegan vodka sauce with cashew cream and a splash of vodka for depth.",
+            steps: [
+              "Soak cashews in hot water for 15 minutes, then drain. Blend with 1/2 cup fresh water until completely smooth. Set aside.",
+              "Bring large pot of salted water to boil for pasta.",
+              "Heat olive oil in large saucepan over medium heat. Add diced onion and cook until softened, about 5 minutes.",
+              "Add minced garlic and tomato paste. Cook, stirring, for 2 minutes until tomato paste darkens.",
+              "Add vodka and cook until mostly evaporated, about 3 minutes.",
+              "Add crushed tomatoes and diced tomatoes. Bring to simmer and cook 15 minutes, stirring occasionally.",
+              "Meanwhile, cook pasta until al dente according to package directions. Reserve 1 cup pasta water before draining.",
+              "Stir cashew cream into tomato sauce. Add red pepper flakes and season with salt and pepper. Simmer 2 minutes.",
+              "Add drained pasta to sauce with splash of pasta water. Toss to coat, adding more pasta water if needed for silky consistency.",
+              "Serve immediately with fresh basil and vegan parmesan if desired."
+            ],
+            ingredients: [
+              { item: 'penne or rigatoni', amount: 1, unit: 'lb', category: 'pantry', store: 'traderjoes' },
+              { item: 'canned crushed tomatoes', amount: 28, unit: 'oz', category: 'pantry', store: 'traderjoes' },
+              { item: 'canned diced tomatoes', amount: 14, unit: 'oz', category: 'pantry', store: 'traderjoes' },
+              { item: 'raw cashews', amount: 1, unit: 'cup', category: 'pantry', store: 'traderjoes' },
+              { item: 'vodka', amount: 0.5, unit: 'cup', category: 'pantry', store: 'any' },
+              { item: 'tomato paste', amount: 2, unit: 'tbsp', category: 'pantry', store: 'traderjoes' },
+              { item: 'onion', amount: 1, unit: 'medium', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'garlic', amount: 4, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'red pepper flakes', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'olive oil', amount: 3, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'salt & pepper', amount: 1, unit: 'to taste', category: 'staple', store: 'any' },
+            ]
+          },
+          'mapo-tofu': {
+            id: 'mapo-tofu',
+            name: 'Mapo Tofu (Impossible)',
+            servings: 4,
+            prepTime: '10 min',
+            cookTime: '15 min',
+            summary: "Sichuan mapo tofu with Impossible meat, doubanjiang, and numbing Sichuan peppercorns.",
+            steps: [
+              "Mix cornstarch with 2 tbsp cold water until smooth. Set aside.",
+              "Cut tofu into 1/2-inch cubes. Handle gently to avoid breaking.",
+              "Heat neutral oil in wok or large skillet over high heat until smoking.",
+              "Add Impossible ground and cook, breaking up with spatula, until browned, about 3-4 minutes.",
+              "Add minced garlic and ginger. Stir-fry for 30 seconds until fragrant.",
+              "Add doubanjiang and cook, stirring constantly, until oil turns red, about 30 seconds.",
+              "Add shaoxing wine, soy sauce, and vegetable stock. Bring to boil.",
+              "Add cornstarch slurry and cook 30 seconds until sauce thickens.",
+              "Carefully add tofu cubes and fold gently to avoid breaking. Simmer 1-2 minutes.",
+              "Add chili oil and half the scallions. Fold gently and cook 30 seconds.",
+              "Transfer to serving bowl. Top with remaining scallions and toasted ground Sichuan peppercorn.",
+              "Serve immediately over steamed rice."
+            ],
+            ingredients: [
+              { item: 'impossible ground', amount: 12, unit: 'oz', category: 'protein', store: 'yesmeal' },
+              { item: 'soft tofu', amount: 14, unit: 'oz', category: 'protein', store: 'yesmeal' },
+              { item: 'doubanjiang', amount: 2, unit: 'tbsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'soy sauce', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'shaoxing wine', amount: 2, unit: 'tbsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'garlic', amount: 4, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'fresh ginger', amount: 1, unit: 'inch piece', category: 'staple', store: 'traderjoes' },
+              { item: 'scallions', amount: 3, unit: 'whole', category: 'produce', store: 'traderjoes' },
+              { item: 'sichuan peppercorns', amount: 1, unit: 'tsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'chili oil', amount: 2, unit: 'tbsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'cornstarch', amount: 1, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'vegetable stock', amount: 0.5, unit: 'cup', category: 'staple', store: 'any' },
+              { item: 'neutral oil', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+            ]
+          },
+          'tomato-bisque': {
+            id: 'tomato-bisque',
+            name: 'Tomato Bisque',
+            servings: 4,
+            prepTime: '5 min',
+            cookTime: '15 min',
+            summary: "Kenji's quick 15-minute creamy vegan tomato soup.",
+            steps: [
+              "Heat 2 tbsp olive oil in large saucepan over medium-high heat until shimmering.",
+              "Add minced garlic, diced onion, oregano, and red pepper flakes. Cook until onions soften, about 5 minutes.",
+              "Add canned tomatoes (crush them with your hands as you add them) and vegetable broth. Bring to boil.",
+              "Reduce heat and simmer for 10 minutes, stirring occasionally.",
+              "Remove from heat. Using immersion blender or regular blender, blend soup until completely smooth. (If using regular blender, blend in batches and be careful with hot liquid.)",
+              "With blender running, drizzle in coconut cream and remaining 1 tbsp olive oil until fully incorporated and creamy.",
+              "Season to taste with salt and pepper.",
+              "Serve hot with drizzle of olive oil, fresh basil, and crusty bread or grilled cheese."
+            ],
+            ingredients: [
+              { item: 'canned whole tomatoes', amount: 28, unit: 'oz', category: 'pantry', store: 'traderjoes' },
+              { item: 'coconut cream', amount: 1, unit: 'can (13.5oz)', category: 'pantry', store: 'traderjoes' },
+              { item: 'onion', amount: 1, unit: 'medium', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'garlic', amount: 4, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'dried oregano', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'red pepper flakes', amount: 0.5, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'olive oil', amount: 3, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'vegetable broth', amount: 1, unit: 'cup', category: 'staple-check', store: 'traderjoes' },
+              { item: 'salt & pepper', amount: 1, unit: 'to taste', category: 'staple', store: 'any' },
+            ]
+          },
+          'fajita-tacos': {
+            id: 'fajita-tacos',
+            name: 'Fajita Tacos',
+            servings: 4,
+            prepTime: '15 min',
+            cookTime: '20 min',
+            summary: "Charred veggie fajitas with bell peppers and onions.",
+            steps: [
+              "Slice bell peppers into 1/4-inch strips. Slice onions into 1/4-inch half-moons.",
+              "In large bowl, toss peppers and onions with olive oil, cumin, chili powder, paprika, minced garlic, salt, and pepper.",
+              "Heat large cast iron skillet or griddle over high heat until very hot.",
+              "Add seasoned vegetables in single layer (work in batches if needed). Let sit undisturbed 2-3 minutes to get charred.",
+              "Flip and cook another 2-3 minutes until vegetables are tender-crisp with nice char.",
+              "Meanwhile, warm tortillas directly over gas flame or in dry skillet until lightly charred and pliable.",
+              "If using black beans, warm them in small pot with pinch of cumin.",
+              "Slice avocados. Chop cilantro. Cut limes into wedges.",
+              "To serve: Fill warm tortillas with fajita vegetables, black beans, avocado slices, cilantro, and squeeze of lime."
+            ],
+            ingredients: [
+              { item: 'bell peppers', amount: 3, unit: 'large mixed colors', category: 'produce', store: 'traderjoes' },
+              { item: 'onions', amount: 2, unit: 'large', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'tortillas', amount: 8, unit: 'count', category: 'pantry', store: 'traderjoes' },
+              { item: 'black beans', amount: 1, unit: 'can (15oz)', category: 'pantry', store: 'traderjoes' },
+              { item: 'lime', amount: 2, unit: 'whole', category: 'produce', store: 'traderjoes' },
+              { item: 'fresh cilantro', amount: 1, unit: 'bunch', category: 'produce', store: 'traderjoes' },
+              { item: 'avocado', amount: 2, unit: 'whole', category: 'produce', store: 'traderjoes' },
+              { item: 'garlic', amount: 3, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'cumin', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'chili powder', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'paprika', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'olive oil', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'salt & pepper', amount: 1, unit: 'to taste', category: 'staple', store: 'any' },
+            ]
+          },
+          'bulgogi-kimbap': {
+            id: 'bulgogi-kimbap',
+            name: 'Impossible Bulgogi Kimbap',
+            servings: 4,
+            prepTime: '30 min',
+            cookTime: '20 min',
+            summary: "Korean rice rolls with sweet-savory bulgogi Impossible meat.",
+            steps: [
+              "Cook sushi rice according to package directions. While hot, mix in rice vinegar and spread on sheet to cool.",
+              "Make bulgogi: Mix soy sauce, sesame oil, gochujang, brown sugar, minced garlic, and grated ginger in bowl.",
+              "Heat skillet over medium-high heat. Cook Impossible ground, breaking it up, until browned, about 5 minutes.",
+              "Add bulgogi sauce to Impossible and cook 2-3 minutes until caramelized and sticky. Set aside to cool.",
+              "Prep vegetables: Cut cucumber and pickled radish into thin strips. Julienne carrots. Blanch spinach 30 seconds, squeeze dry.",
+              "Lay bamboo rolling mat on work surface. Place nori sheet shiny-side down.",
+              "Spread thin layer of rice on nori, leaving 1-inch strip at top edge. Press rice gently.",
+              "Place bulgogi, cucumber, carrot, pickled radish, and spinach in line across bottom third of rice.",
+              "Using mat, roll tightly from bottom, tucking filling as you go. Seal edge with water.",
+              "Brush roll with sesame oil and sprinkle with sesame seeds.",
+              "Cut into 8 pieces with sharp knife. Serve at room temperature."
+            ],
+            ingredients: [
+              { item: 'impossible ground', amount: 12, unit: 'oz', category: 'protein', store: 'yesmeal' },
+              { item: 'sushi rice', amount: 2, unit: 'cups', category: 'pantry', store: 'traderjoes' },
+              { item: 'nori sheets', amount: 8, unit: 'sheets', category: 'pantry', store: 'berkeleybowl' },
+              { item: 'cucumber', amount: 1, unit: 'large', category: 'produce', store: 'traderjoes' },
+              { item: 'carrots', amount: 2, unit: 'medium', category: 'produce-staple', store: 'traderjoes' },
+              { item: 'fresh spinach', amount: 4, unit: 'oz', category: 'produce', store: 'traderjoes' },
+              { item: 'pickled radish (danmuji)', amount: 1, unit: 'package', category: 'pantry', store: 'berkeleybowl' },
+              { item: 'gochujang', amount: 2, unit: 'tbsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'soy sauce', amount: 3, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'sesame oil', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'brown sugar', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'garlic', amount: 4, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'fresh ginger', amount: 1, unit: 'inch piece', category: 'staple', store: 'traderjoes' },
+              { item: 'rice vinegar', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'sesame seeds', amount: 2, unit: 'tbsp', category: 'staple', store: 'any' },
+            ]
+          },
+          'miso-soup': {
+            id: 'miso-soup',
+            name: 'Miso Soup',
+            servings: 4,
+            prepTime: '5 min',
+            cookTime: '10 min',
+            summary: "Classic Japanese miso soup with tofu and wakame.",
+            steps: [
+              "Soak wakame seaweed in cold water for 5 minutes. Drain and roughly chop if pieces are large.",
+              "Cut tofu into 1/2-inch cubes.",
+              "Place kombu and 4 cups water in pot. Heat over medium until just before boiling (small bubbles form on bottom).",
+              "Remove and discard kombu. This is your dashi broth.",
+              "Keep broth at gentle simmer. Add tofu cubes and rehydrated wakame.",
+              "Place miso paste in small bowl. Add ladle of hot broth and whisk until miso dissolves completely.",
+              "Turn off heat under pot. Pour dissolved miso into pot and stir gently. Do not boil after adding miso (destroys beneficial enzymes and flavor).",
+              "Slice scallions thinly.",
+              "Ladle soup into bowls and garnish with scallions. Serve immediately."
+            ],
+            ingredients: [
+              { item: 'white or red miso paste', amount: 3, unit: 'tbsp', category: 'staple-check', store: 'berkeleybowl' },
+              { item: 'soft tofu', amount: 8, unit: 'oz', category: 'protein', store: 'yesmeal' },
+              { item: 'wakame seaweed', amount: 2, unit: 'tbsp dried', category: 'pantry', store: 'berkeleybowl' },
+              { item: 'kombu', amount: 1, unit: 'piece (4 inch)', category: 'pantry', store: 'berkeleybowl' },
+              { item: 'scallions', amount: 2, unit: 'whole', category: 'produce', store: 'traderjoes' },
+              { item: 'water', amount: 4, unit: 'cups', category: 'staple', store: 'any' },
+            ]
+          },
+          'indomie-ramen': {
+            id: 'indomie-ramen',
+            name: 'Indomie with Shiitake',
+            servings: 2,
+            prepTime: '5 min',
+            cookTime: '10 min',
+            summary: "Quick Indonesian instant noodles elevated with sautéed shiitake mushrooms.",
+            steps: [
+              "Clean shiitake mushrooms and remove stems. Slice caps into 1/4-inch strips.",
+              "Heat neutral oil in skillet over medium-high heat.",
+              "Add minced garlic and cook 30 seconds until fragrant.",
+              "Add sliced shiitake and cook, stirring occasionally, until golden brown and edges are crispy, about 5-6 minutes.",
+              "Add soy sauce and sesame oil to mushrooms. Toss to coat and cook 30 seconds more. Remove from heat.",
+              "Cook Indomie noodles according to package directions, using included seasoning packets.",
+              "Slice scallions thinly.",
+              "Divide noodles between bowls. Top with sautéed shiitake mushrooms and scallions.",
+              "Optional: Add chili oil, soft-boiled egg, or kimchi for extra flavor."
+            ],
+            ingredients: [
+              { item: 'indomie instant noodles', amount: 2, unit: 'packs', category: 'pantry', store: 'berkeleybowl' },
+              { item: 'fresh shiitake mushrooms', amount: 8, unit: 'oz', category: 'produce', store: 'berkeleybowl' },
+              { item: 'scallions', amount: 2, unit: 'whole', category: 'produce', store: 'traderjoes' },
+              { item: 'garlic', amount: 2, unit: 'cloves', category: 'staple', store: 'traderjoes' },
+              { item: 'soy sauce', amount: 1, unit: 'tbsp', category: 'staple', store: 'any' },
+              { item: 'sesame oil', amount: 1, unit: 'tsp', category: 'staple', store: 'any' },
+              { item: 'neutral oil', amount: 1, unit: 'tbsp', category: 'staple', store: 'any' },
+            ]
+          }
+        };
+
+        const STORE_NAMES = {
+          traderjoes: "Trader Joe's",
+          yesmeal: 'Yesmeal',
+          berkeleybowl: 'Berkeley Bowl',
+          any: 'Any Store'
+        };
+
+        function MealPlanner() {
+          const [selectedMeals, setSelectedMeals] = useState({});
+          const [purchaseHistory, setPurchaseHistory] = useState([]);
+          const [showHistory, setShowHistory] = useState(false);
+          const [showRecipeInfo, setShowRecipeInfo] = useState(null);
+
+          useEffect(() => {
+            const saved = localStorage.getItem('mealPlanner');
+            if (saved) {
+              const data = JSON.parse(saved);
+              setSelectedMeals(data.selectedMeals || {});
+              setPurchaseHistory(data.purchaseHistory || []);
+            } else {
+              const initialSelected = {};
+              Object.keys(RECIPES).forEach(id => {
+                initialSelected[id] = true;
+              });
+              setSelectedMeals(initialSelected);
+            }
+          }, []);
+
+          useEffect(() => {
+            localStorage.setItem('mealPlanner', JSON.stringify({ selectedMeals, purchaseHistory }));
+          }, [selectedMeals, purchaseHistory]);
+
+          const toggleMeal = (recipeId) => {
+            setSelectedMeals({
+              ...selectedMeals,
+              [recipeId]: !selectedMeals[recipeId]
+            });
+          };
+
+          const saveWeekToHistory = () => {
+            const weekData = {
+              date: new Date().toISOString(),
+              weekOf: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+              selectedMeals: { ...selectedMeals },
+              shoppingList: generateShoppingList()
+            };
+            
+            setPurchaseHistory([weekData, ...purchaseHistory]);
+            
+            const resetSelected = {};
+            Object.keys(RECIPES).forEach(id => {
+              resetSelected[id] = true;
+            });
+            setSelectedMeals(resetSelected);
+          };
+
+          const deleteHistoryWeek = (index) => {
+            setPurchaseHistory(purchaseHistory.filter((_, i) => i !== index));
+          };
+
+          const generateShoppingList = () => {
+            const list = {
+              traderjoes: { produce: [], protein: [], pantry: [], staples: [] },
+              yesmeal: { produce: [], protein: [], pantry: [], staples: [] },
+              berkeleybowl: { produce: [], protein: [], pantry: [], staples: [] },
+              any: { produce: [], protein: [], pantry: [], staples: [] }
+            };
+
+            const ingredientCounts = {};
+            Object.entries(selectedMeals).forEach(([mealId, isSelected]) => {
+              if (!isSelected) return;
+              
+              const recipe = RECIPES[mealId];
+              recipe.ingredients.forEach(ing => {
+                if (ing.category === 'staple') return;
+                
+                const key = `${ing.item}-${ing.store}`;
+                if (!ingredientCounts[key]) {
+                  ingredientCounts[key] = { ...ing, count: 0 };
+                }
+                ingredientCounts[key].count += 1;
+              });
+            });
+
+            Object.values(ingredientCounts).forEach(ing => {
+              const categoryKey = ing.category.includes('produce') ? 'produce' : 
+                                 ing.category.includes('protein') ? 'protein' :
+                                 ing.category.includes('staple') ? 'staples' : 'pantry';
+              
+              const displayText = ing.count > 1 
+                ? `${ing.item} (${ing.amount * ing.count} ${ing.unit} - for ${ing.count} recipes)`
+                : `${ing.item} (${ing.amount} ${ing.unit})`;
+              
+              list[ing.store][categoryKey].push(displayText);
+            });
+
+            return list;
+          };
+
+          const shoppingList = generateShoppingList();
+          const selectedCount = Object.values(selectedMeals).filter(Boolean).length;
+
+          return (
+            <div style={{
+              minHeight: '100vh',
+              background: 'linear-gradient(135deg, #faf8f5 0%, #f5f1ea 100%)',
+              fontFamily: "'DM Sans', sans-serif",
+              padding: '1rem'
+            }}>
+              <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap');
+                
+                * {
+                  box-sizing: border-box;
+                }
+                
+                .recipe-card {
+                  background: white;
+                  border-radius: 12px;
+                  padding: 1.25rem;
+                  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                  border: 1px solid rgba(139, 69, 19, 0.1);
+                  transition: all 0.3s ease;
+                }
+                
+                .recipe-card:hover {
+                  box-shadow: 0 4px 16px rgba(139, 69, 19, 0.15);
+                }
+                
+                .main-grid {
+                  display: grid;
+                  grid-template-columns: minmax(300px, 400px) 1fr;
+                  gap: 2rem;
+                  align-items: start;
+                }
+                
+                @media (max-width: 768px) {
+                  .main-grid {
+                    grid-template-columns: 1fr;
+                  }
+                }
+              `}</style>
+
+              <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                <div style={{ 
+                  textAlign: 'center', 
+                  marginBottom: '2rem',
+                  paddingBottom: '1.5rem',
+                  borderBottom: '2px solid rgba(139, 69, 19, 0.15)'
+                }}>
+                  <h1 style={{
+                    fontFamily: "'Crimson Text', serif",
+                    fontSize: '2.5rem',
+                    fontWeight: 700,
+                    color: '#2d5016',
+                    margin: '0 0 0.5rem 0',
+                    letterSpacing: '-0.02em'
+                  }}>
+                    Weekly Meal Planner
+                  </h1>
+                  <p style={{
+                    fontSize: '1rem',
+                    color: '#6b4423',
+                    margin: 0
+                  }}>
+                    Plan your dinners, track your purchases, organize your shopping
+                  </p>
+                </div>
+
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '1rem',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '2rem',
+                  borderBottom: '1px solid rgba(139, 69, 19, 0.15)',
+                  paddingBottom: '1rem',
+                  flexWrap: 'wrap'
+                }}>
+                  <span style={{
+                    padding: '0.75rem 1.5rem',
+                    fontFamily: 'DM Sans, sans-serif',
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: '#2d5016',
+                    borderBottom: '3px solid #4a7c2c'
+                  }}>
+                    <ShoppingCart size={18} style={{ display: 'inline', marginRight: '0.5rem', verticalAlign: 'middle' }} />
+                    Weekly Shopping List
+                  </span>
+                  
+                  <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                    <button
+                      onClick={() => setShowHistory(!showHistory)}
+                      style={{
+                        padding: '0.625rem 1.25rem',
+                        borderRadius: '8px',
+                        border: '1px solid rgba(139, 69, 19, 0.2)',
+                        background: showHistory ? '#4a7c2c' : '#f5f1ea',
+                        color: showHistory ? 'white' : '#6b4423',
+                        cursor: 'pointer',
+                        fontFamily: 'DM Sans, sans-serif',
+                        fontSize: '0.9rem',
+                        fontWeight: 500,
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      {showHistory ? 'Hide' : 'Show'} History ({purchaseHistory.length})
+                    </button>
+                    
+                    {selectedCount > 0 && (
+                      <button
+                        onClick={saveWeekToHistory}
+                        style={{
+                          padding: '0.625rem 1.25rem',
+                          borderRadius: '8px',
+                          border: 'none',
+                          background: '#4a7c2c',
+                          color: 'white',
+                          cursor: 'pointer',
+                          fontFamily: 'DM Sans, sans-serif',
+                          fontSize: '0.9rem',
+                          fontWeight: 500,
+                          transition: 'all 0.2s ease',
+                          boxShadow: '0 2px 4px rgba(74, 124, 44, 0.2)'
+                        }}
+                      >
+                        💾 Save This Week
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {showHistory && purchaseHistory.length > 0 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{
+                      fontFamily: "'Crimson Text', serif",
+                      fontSize: '2rem',
+                      color: '#2d5016',
+                      marginBottom: '1.5rem'
+                    }}>
+                      Purchase History
+                    </h2>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                      {purchaseHistory.map((week, weekIndex) => {
+                        const mealsCooked = Object.entries(week.selectedMeals)
+                          .filter(([_, selected]) => selected)
+                          .map(([id, _]) => RECIPES[id]?.name)
+                          .filter(Boolean);
+                        
+                        return (
+                          <div key={weekIndex} className="recipe-card" style={{ 
+                            background: 'linear-gradient(135deg, #ffffff 0%, #faf8f5 100%)'
+                          }}>
+                            <div style={{ 
+                              display: 'flex', 
+                              justifyContent: 'space-between', 
+                              alignItems: 'flex-start',
+                              marginBottom: '1rem',
+                              flexWrap: 'wrap',
+                              gap: '1rem'
+                            }}>
+                              <div>
+                                <h3 style={{
+                                  fontFamily: "'Crimson Text', serif",
+                                  fontSize: '1.5rem',
+                                  color: '#2d5016',
+                                  margin: '0 0 0.5rem 0'
+                                }}>
+                                  Week of {week.weekOf}
+                                </h3>
+                                <div style={{ 
+                                  fontSize: '0.9rem', 
+                                  color: '#6b4423',
+                                  marginBottom: '0.75rem'
+                                }}>
+                                  <strong>Meals cooked:</strong> {mealsCooked.join(', ')}
+                                </div>
+                              </div>
+                              
+                              <button
+                                onClick={() => deleteHistoryWeek(weekIndex)}
+                                style={{
+                                  padding: '0.5rem 1rem',
+                                  borderRadius: '6px',
+                                  border: '1px solid rgba(196, 69, 54, 0.3)',
+                                  background: 'white',
+                                  color: '#c44536',
+                                  cursor: 'pointer',
+                                  fontFamily: 'DM Sans, sans-serif',
+                                  fontSize: '0.85rem',
+                                  transition: 'all 0.2s ease'
+                                }}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                            
+                            <details style={{ marginTop: '1rem' }}>
+                              <summary style={{
+                                cursor: 'pointer',
+                                fontWeight: 600,
+                                color: '#4a7c2c',
+                                fontSize: '0.95rem',
+                                padding: '0.5rem 0',
+                                userSelect: 'none'
+                              }}>
+                                View Shopping List
+                              </summary>
+                              
+                              <div style={{ 
+                                marginTop: '1rem', 
+                                paddingTop: '1rem',
+                                borderTop: '1px solid rgba(139, 69, 19, 0.1)'
+                              }}>
+                                {Object.entries(week.shoppingList).map(([store, categories]) => {
+                                  const hasItems = Object.values(categories).some(arr => arr.length > 0);
+                                  if (!hasItems) return null;
+
+                                  return (
+                                    <div key={store} style={{ marginBottom: '1.5rem' }}>
+                                      <h4 style={{
+                                        fontSize: '1.1rem',
+                                        fontWeight: 600,
+                                        color: '#2d5016',
+                                        marginBottom: '0.75rem'
+                                      }}>
+                                        {STORE_NAMES[store]}
+                                      </h4>
+                                      
+                                      {Object.entries(categories).map(([category, items]) => {
+                                        if (items.length === 0) return null;
+                                        return (
+                                          <div key={category} style={{ marginBottom: '1rem' }}>
+                                            <div style={{
+                                              fontSize: '0.85rem',
+                                              fontWeight: 600,
+                                              color: '#6b4423',
+                                              textTransform: 'uppercase',
+                                              letterSpacing: '0.05em',
+                                              marginBottom: '0.5rem'
+                                            }}>
+                                              {category}
+                                            </div>
+                                            <ul style={{ 
+                                              margin: 0, 
+                                              paddingLeft: '1.5rem',
+                                              listStyleType: 'disc'
+                                            }}>
+                                              {items.map((item, i) => (
+                                                <li key={i} style={{ 
+                                                  color: '#3d3d3d', 
+                                                  fontSize: '0.9rem',
+                                                  marginBottom: '0.25rem'
+                                                }}>
+                                                  {item}
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </details>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                <div className="main-grid">
+                  <div>
+                    <div className="recipe-card" style={{ position: 'sticky', top: '1rem' }}>
+                      <h3 style={{
+                        fontFamily: "'Crimson Text', serif",
+                        fontSize: '1.5rem',
+                        color: '#2d5016',
+                        margin: '0 0 1rem 0'
+                      }}>
+                        This Week's Meals ({selectedCount}/6)
+                      </h3>
+                      <p style={{ 
+                        fontSize: '0.9rem', 
+                        color: '#6b4423',
+                        marginBottom: '1.5rem',
+                        lineHeight: '1.5'
+                      }}>
+                        Select meals for Monday-Saturday (eating out once). Check off what you'll cook this week.
+                      </p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        {Object.values(RECIPES).map(recipe => (
+                          <label
+                            key={recipe.id}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'flex-start',
+                              gap: '0.75rem',
+                              padding: '0.75rem',
+                              borderRadius: '8px',
+                              cursor: 'pointer',
+                              background: selectedMeals[recipe.id] ? 'rgba(74, 124, 44, 0.08)' : 'transparent',
+                              border: '2px solid',
+                              borderColor: selectedMeals[recipe.id] ? '#4a7c2c' : 'transparent',
+                              transition: 'all 0.2s ease'
+                            }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={selectedMeals[recipe.id] || false}
+                              onChange={() => toggleMeal(recipe.id)}
+                              style={{
+                                width: '20px',
+                                height: '20px',
+                                cursor: 'pointer',
+                                marginTop: '2px',
+                                accentColor: '#4a7c2c'
+                              }}
+                            />
+                            <div style={{ flex: 1 }}>
+                              <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                marginBottom: '0.25rem'
+                              }}>
+                                <div style={{
+                                  fontWeight: 600,
+                                  color: '#2d5016',
+                                  flex: 1
+                                }}>
+                                  {recipe.name}
+                                </div>
+                                <button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setShowRecipeInfo(recipe.id);
+                                  }}
+                                  style={{
+                                    background: 'transparent',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    padding: '4px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    color: '#6b4423',
+                                    transition: 'color 0.2s ease'
+                                  }}
+                                >
+                                  <Info size={18} />
+                                </button>
+                              </div>
+                              <div style={{ 
+                                fontSize: '0.8rem', 
+                                color: '#6b4423'
+                              }}>
+                                🍽️ {recipe.servings} servings
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    {selectedCount === 0 ? (
+                      <div className="recipe-card" style={{ 
+                        textAlign: 'center', 
+                        padding: '3rem',
+                        background: 'linear-gradient(135deg, #ffffff 0%, #faf8f5 100%)'
+                      }}>
+                        <p style={{ 
+                          fontSize: '1.1rem', 
+                          color: '#6b4423'
+                        }}>
+                          Select meals on the left to generate your shopping list.
+                        </p>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                        {Object.entries(shoppingList).map(([store, categories]) => {
+                          const hasItems = Object.values(categories).some(arr => arr.length > 0);
+                          if (!hasItems) return null;
+
+                          return (
+                            <div key={store} className="recipe-card">
+                              <h3 style={{
+                                fontFamily: "'Crimson Text', serif",
+                                fontSize: '1.8rem',
+                                color: '#2d5016',
+                                marginBottom: '1.5rem',
+                                paddingBottom: '0.75rem',
+                                borderBottom: '2px solid rgba(74, 124, 44, 0.2)'
+                              }}>
+                                {STORE_NAMES[store]}
+                              </h3>
+                              
+                              {Object.entries(categories).map(([category, items]) => {
+                                if (items.length === 0) return null;
+                                return (
+                                  <div key={category} style={{ marginBottom: '1.5rem' }}>
+                                    <h4 style={{
+                                      fontSize: '1rem',
+                                      fontWeight: 600,
+                                      color: '#4a7c2c',
+                                      textTransform: 'uppercase',
+                                      letterSpacing: '0.05em',
+                                      marginBottom: '0.75rem'
+                                    }}>
+                                      {category}
+                                    </h4>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                      {items.map((item, i) => (
+                                        <label
+                                          key={i}
+                                          style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.75rem',
+                                            padding: '0.5rem',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            transition: 'background 0.2s ease'
+                                          }}
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            style={{
+                                              width: '18px',
+                                              height: '18px',
+                                              cursor: 'pointer',
+                                              accentColor: '#4a7c2c'
+                                            }}
+                                          />
+                                          <span style={{ color: '#3d3d3d', fontSize: '0.95rem' }}>
+                                            {item}
+                                          </span>
+                                        </label>
+                                      ))}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          );
+                        })}
+
+                        <div className="recipe-card" style={{ 
+                          background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+                          border: '1px solid rgba(74, 124, 44, 0.2)'
+                        }}>
+                          <h4 style={{
+                            fontSize: '1.1rem',
+                            fontWeight: 600,
+                            color: '#2d5016',
+                            marginBottom: '0.75rem'
+                          }}>
+                            Weekly Snack Staples
+                          </h4>
+                          <div style={{ 
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+                            gap: '0.5rem',
+                            fontSize: '0.9rem',
+                            color: '#3d3d3d'
+                          }}>
+                            <div>• Kiwis</div>
+                            <div>• Berries</div>
+                            <div>• Honeycrisp Apples</div>
+                            <div>• Vegan Yogurt</div>
+                            <div>• Yogurt</div>
+                            <div>• Sumo Oranges</div>
+                            <div>• Spindrift</div>
+                            <div>• Tangerine Juice</div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {showRecipeInfo && (
+                  <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 1000,
+                    padding: '2rem'
+                  }}
+                  onClick={() => setShowRecipeInfo(null)}
+                  >
+                    <div 
+                      style={{
+                        background: 'white',
+                        borderRadius: '16px',
+                        padding: '2rem',
+                        maxWidth: '700px',
+                        width: '100%',
+                        maxHeight: '80vh',
+                        overflow: 'auto'
+                      }}
+                      onClick={e => e.stopPropagation()}
+                    >
+                      <div style={{ 
+                        display: 'flex', 
+                        justifyContent: 'space-between', 
+                        alignItems: 'flex-start',
+                        marginBottom: '1.5rem'
+                      }}>
+                        <h2 style={{
+                          fontFamily: "'Crimson Text', serif",
+                          fontSize: '2rem',
+                          color: '#2d5016',
+                          margin: 0
+                        }}>
+                          {RECIPES[showRecipeInfo].name}
+                        </h2>
+                        <button
+                          onClick={() => setShowRecipeInfo(null)}
+                          style={{
+                            background: 'transparent',
+                            border: 'none',
+                            fontSize: '1.5rem',
+                            cursor: 'pointer',
+                            color: '#6b4423',
+                            padding: '0.25rem',
+                            lineHeight: 1
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+
+                      <div style={{ 
+                        display: 'flex',
+                        gap: '1.5rem',
+                        marginBottom: '1.5rem',
+                        fontSize: '0.9rem', 
+                        color: '#6b4423',
+                        fontWeight: 500,
+                        flexWrap: 'wrap'
+                      }}>
+                        <span>🍽️ Serves {RECIPES[showRecipeInfo].servings}</span>
+                        <span>⏱️ Prep: {RECIPES[showRecipeInfo].prepTime}</span>
+                        <span>🔥 Cook: {RECIPES[showRecipeInfo].cookTime}</span>
+                      </div>
+
+                      <p style={{
+                        fontSize: '1rem',
+                        color: '#3d3d3d',
+                        lineHeight: '1.6',
+                        marginBottom: '1.5rem',
+                        fontStyle: 'italic'
+                      }}>
+                        {RECIPES[showRecipeInfo].summary}
+                      </p>
+
+                      <div style={{
+                        borderTop: '2px solid rgba(139, 69, 19, 0.1)',
+                        paddingTop: '1.5rem'
+                      }}>
+                        <h3 style={{
+                          fontFamily: "'Crimson Text', serif",
+                          fontSize: '1.4rem',
+                          color: '#2d5016',
+                          marginBottom: '1rem'
+                        }}>
+                          Instructions
+                        </h3>
+                        <ol style={{
+                          margin: 0,
+                          paddingLeft: '1.5rem',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.75rem'
+                        }}>
+                          {RECIPES[showRecipeInfo].steps.map((step, index) => (
+                            <li key={index} style={{
+                              fontSize: '0.95rem',
+                              color: '#3d3d3d',
+                              lineHeight: '1.7',
+                              paddingLeft: '0.5rem'
+                            }}>
+                              {step}
+                            </li>
+                          ))}
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        }
+
+        ReactDOM.render(<MealPlanner />, document.getElementById('root'));
+    </script>
+</body>
+</html>
