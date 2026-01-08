@@ -333,11 +333,110 @@ const STORE_NAMES = {
   any: 'Any Store'
 };
 
+// California Seasonal Produce (Berkeley area)
+const SEASONAL_PRODUCE = {
+  winter: {
+    months: [12, 1, 2],
+    vegetables: [
+      { name: 'Broccoli', recipes: ['Add to stir-fries', 'Roast with garlic and lemon', 'Steam and add to pasta dishes'] },
+      { name: 'Brussels Sprouts', recipes: ['Roast with balsamic vinegar', 'Shave raw into salads', 'Pan-fry with garlic'] },
+      { name: 'Cabbage', recipes: ['Make kimchi', 'Add to kimbap', 'Sauté with tofu'] },
+      { name: 'Cauliflower', recipes: ['Roast as steaks', 'Make cauliflower rice', 'Blend into creamy soups'] },
+      { name: 'Kale', recipes: ['Massage with lemon for salads', 'Add to lentil soup', 'Sauté with garlic'] },
+      { name: 'Leeks', recipes: ['Add to lentil soup', 'Roast with potatoes', 'Make potato-leek soup'] },
+      { name: 'Mushrooms', recipes: ['Sauté with garlic (like shiitake in Indomie)', 'Add to mapo tofu', 'Make mushroom risotto'] },
+      { name: 'Spinach', recipes: ['Use in Vegan Saag', 'Add to kimbap', 'Sauté with garlic'] },
+      { name: 'Sweet Potatoes', recipes: ['Roast wedges', 'Make sweet potato tacos', 'Add to curries'] }
+    ],
+    fruits: [
+      { name: 'Apples', recipes: ['Eat fresh', 'Bake with cinnamon', 'Add to salads'] },
+      { name: 'Avocados', recipes: ['Use in fajita tacos', 'Make guacamole', 'Add to salads'] },
+      { name: 'Grapefruit', recipes: ['Segment for salads', 'Juice for drinks', 'Eat fresh'] },
+      { name: 'Kiwis', recipes: ['Eat fresh', 'Add to smoothies', 'Top yogurt'] },
+      { name: 'Oranges/Tangerines', recipes: ['Eat fresh', 'Juice for drinks', 'Zest for recipes'] },
+      { name: 'Pears', recipes: ['Eat fresh', 'Poach in wine', 'Add to salads'] },
+      { name: 'Persimmons', recipes: ['Eat fresh when ripe', 'Add to salads', 'Make persimmon bread'] },
+      { name: 'Pomegranates', recipes: ['Sprinkle seeds on salads', 'Add to grain bowls', 'Juice for drinks'] }
+    ]
+  },
+  spring: {
+    months: [3, 4, 5],
+    vegetables: [
+      { name: 'Artichokes', recipes: ['Steam and serve with lemon aioli', 'Grill halved artichokes', 'Add hearts to pasta'] },
+      { name: 'Asparagus', recipes: ['Roast with olive oil', 'Grill with lemon', 'Add to stir-fries'] },
+      { name: 'Fava Beans', recipes: ['Blanch and add to salads', 'Purée for dips', 'Sauté with garlic'] },
+      { name: 'Peas', recipes: ['Add to pasta', 'Purée for soup', 'Stir-fry with other vegetables'] },
+      { name: 'Radishes', recipes: ['Slice for salads', 'Roast whole', 'Pickle for tacos'] },
+      { name: 'Spring Onions', recipes: ['Grill whole', 'Add to salads', 'Use like scallions'] },
+      { name: 'Strawberries', recipes: ['Eat fresh', 'Make strawberry salad', 'Add to smoothies'] },
+      { name: 'Lettuce', recipes: ['Make salads', 'Use as taco wraps', 'Grill romaine hearts'] }
+    ],
+    fruits: [
+      { name: 'Strawberries', recipes: ['Eat fresh', 'Make fruit salad', 'Top yogurt'] },
+      { name: 'Avocados', recipes: ['Use in fajita tacos', 'Make guacamole', 'Add to salads'] },
+      { name: 'Lemons', recipes: ['Use in lentil soup gremolata', 'Make lemonade', 'Zest for recipes'] }
+    ]
+  },
+  summer: {
+    months: [6, 7, 8],
+    vegetables: [
+      { name: 'Tomatoes', recipes: ['Use in vodka pasta', 'Make tomato bisque', 'Slice for salads'] },
+      { name: 'Bell Peppers', recipes: ['Use in fajita tacos', 'Roast and blend into sauces', 'Stuff and bake'] },
+      { name: 'Corn', recipes: ['Grill and top with lime', 'Make corn salsa', 'Add to tacos'] },
+      { name: 'Cucumbers', recipes: ['Use in kimbap', 'Make cucumber salad', 'Add to cold noodles'] },
+      { name: 'Eggplant', recipes: ['Make baba ganoush', 'Roast with miso', 'Grill in slices'] },
+      { name: 'Green Beans', recipes: ['Blanch for salads', 'Stir-fry with garlic', 'Roast with almonds'] },
+      { name: 'Zucchini', recipes: ['Spiralize for noodles', 'Grill slices', 'Sauté with garlic'] },
+      { name: 'Summer Squash', recipes: ['Sauté with herbs', 'Grill slices', 'Add to pasta'] }
+    ],
+    fruits: [
+      { name: 'Berries', recipes: ['Eat fresh', 'Make fruit salad', 'Top yogurt'] },
+      { name: 'Peaches', recipes: ['Grill with balsamic', 'Eat fresh', 'Add to salads'] },
+      { name: 'Plums', recipes: ['Eat fresh', 'Roast with sugar', 'Make compote'] },
+      { name: 'Watermelon', recipes: ['Eat fresh', 'Make agua fresca', 'Add to salads'] },
+      { name: 'Cherries', recipes: ['Eat fresh', 'Pit for desserts', 'Add to smoothies'] }
+    ]
+  },
+  fall: {
+    months: [9, 10, 11],
+    vegetables: [
+      { name: 'Butternut Squash', recipes: ['Roast and purée for soup', 'Cube and roast', 'Add to pasta'] },
+      { name: 'Pumpkin', recipes: ['Roast for purée', 'Make pumpkin curry', 'Roast seeds for snacks'] },
+      { name: 'Broccoli', recipes: ['Roast with garlic', 'Add to stir-fries', 'Steam for side dishes'] },
+      { name: 'Cauliflower', recipes: ['Roast whole', 'Make cauliflower rice', 'Blend into soups'] },
+      { name: 'Carrots', recipes: ['Use in lentil soup', 'Roast with herbs', 'Julienne for kimbap'] },
+      { name: 'Beets', recipes: ['Roast and serve with greens', 'Pickle for salads', 'Make beet hummus'] },
+      { name: 'Kale', recipes: ['Massage for salads', 'Add to soups', 'Make kale chips'] },
+      { name: 'Sweet Potatoes', recipes: ['Roast wedges', 'Make sweet potato curry', 'Mash as side dish'] }
+    ],
+    fruits: [
+      { name: 'Apples', recipes: ['Eat fresh', 'Bake in desserts', 'Make applesauce'] },
+      { name: 'Pears', recipes: ['Eat fresh', 'Poach in wine', 'Add to salads'] },
+      { name: 'Persimmons', recipes: ['Eat when soft', 'Add to salads', 'Make persimmon bread'] },
+      { name: 'Pomegranates', recipes: ['Sprinkle on salads', 'Add to grain bowls', 'Make juice'] },
+      { name: 'Figs', recipes: ['Eat fresh', 'Roast with balsamic', 'Add to cheese plates'] }
+    ]
+  }
+};
+
+function getCurrentSeason() {
+  const month = new Date().getMonth() + 1; // 1-12
+  for (const [season, data] of Object.entries(SEASONAL_PRODUCE)) {
+    if (data.months.includes(month)) {
+      return { season, ...data };
+    }
+  }
+  return null;
+}
+
+
 export default function MealPlanner() {
   const [selectedMeals, setSelectedMeals] = useState({});
   const [purchaseHistory, setPurchaseHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
   const [showRecipeInfo, setShowRecipeInfo] = useState(null);
+  const [showSeasonalInfo, setShowSeasonalInfo] = useState(null);
+  const [showSeasonalSection, setShowSeasonalSection] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -537,6 +636,24 @@ export default function MealPlanner() {
           </span>
           
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setShowSeasonalSection(!showSeasonalSection)}
+              style={{
+                padding: '0.625rem 1.25rem',
+                borderRadius: '8px',
+                border: '1px solid rgba(139, 69, 19, 0.2)',
+                background: showSeasonalSection ? '#d97706' : '#f5f1ea',
+                color: showSeasonalSection ? 'white' : '#6b4423',
+                cursor: 'pointer',
+                fontFamily: 'DM Sans, sans-serif',
+                fontSize: '0.9rem',
+                fontWeight: 500,
+                transition: 'all 0.2s ease'
+              }}
+            >
+              🌱 {showSeasonalSection ? 'Hide' : 'Show'} Seasonal Produce
+            </button>
+            
             <button
               onClick={() => setShowHistory(!showHistory)}
               style={{
@@ -739,6 +856,155 @@ export default function MealPlanner() {
             </div>
           </div>
         )}
+
+        {/* Seasonal Produce Section */}
+        {showSeasonalSection && (() => {
+          const seasonalData = getCurrentSeason();
+          if (!seasonalData) return null;
+          
+          return (
+            <div style={{ marginBottom: '2rem' }}>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'space-between',
+                marginBottom: '1.5rem',
+                flexWrap: 'wrap',
+                gap: '1rem'
+              }}>
+                <h2 style={{
+                  fontFamily: "'Crimson Text', serif",
+                  fontSize: '2rem',
+                  color: '#2d5016',
+                  margin: 0
+                }}>
+                  🌱 What's In Season: {seasonalData.season.charAt(0).toUpperCase() + seasonalData.season.slice(1)}
+                </h2>
+                <div style={{
+                  padding: '0.5rem 1rem',
+                  background: 'linear-gradient(135deg, #d97706 0%, #ea580c 100%)',
+                  color: 'white',
+                  borderRadius: '20px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.05em'
+                }}>
+                  FRESH & LOCAL
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                {/* Vegetables */}
+                <div className="recipe-card" style={{ 
+                  background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                  border: '2px solid rgba(74, 124, 44, 0.2)'
+                }}>
+                  <h3 style={{
+                    fontFamily: "'Crimson Text', serif",
+                    fontSize: '1.5rem',
+                    color: '#2d5016',
+                    marginBottom: '1rem',
+                    paddingBottom: '0.75rem',
+                    borderBottom: '2px solid rgba(74, 124, 44, 0.2)'
+                  }}>
+                    🥬 Vegetables
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {seasonalData.vegetables.map((veg, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setShowSeasonalInfo(veg)}
+                        style={{
+                          background: 'white',
+                          border: '1px solid rgba(74, 124, 44, 0.2)',
+                          borderRadius: '8px',
+                          padding: '0.75rem 1rem',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          fontFamily: 'DM Sans, sans-serif',
+                          fontSize: '0.95rem',
+                          fontWeight: 500,
+                          color: '#2d5016',
+                          transition: 'all 0.2s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between'
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = 'rgba(74, 124, 44, 0.05)';
+                          e.currentTarget.style.transform = 'translateX(4px)';
+                          e.currentTarget.style.borderColor = '#4a7c2c';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background = 'white';
+                          e.currentTarget.style.transform = 'translateX(0)';
+                          e.currentTarget.style.borderColor = 'rgba(74, 124, 44, 0.2)';
+                        }}
+                      >
+                        {veg.name}
+                        <span style={{ fontSize: '0.8rem', color: '#6b4423' }}>View recipes →</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Fruits */}
+                <div className="recipe-card" style={{ 
+                  background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+                  border: '2px solid rgba(217, 119, 6, 0.3)'
+                }}>
+                  <h3 style={{
+                    fontFamily: "'Crimson Text', serif",
+                    fontSize: '1.5rem',
+                    color: '#92400e',
+                    marginBottom: '1rem',
+                    paddingBottom: '0.75rem',
+                    borderBottom: '2px solid rgba(217, 119, 6, 0.3)'
+                  }}>
+                    🍎 Fruits
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {seasonalData.fruits.map((fruit, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setShowSeasonalInfo(fruit)}
+                        style={{
+                          background: 'white',
+                          border: '1px solid rgba(217, 119, 6, 0.3)',
+                          borderRadius: '8px',
+                          padding: '0.75rem 1rem',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                          fontFamily: 'DM Sans, sans-serif',
+                          fontSize: '0.95rem',
+                          fontWeight: 500,
+                          color: '#92400e',
+                          transition: 'all 0.2s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between'
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = 'rgba(217, 119, 6, 0.05)';
+                          e.currentTarget.style.transform = 'translateX(4px)';
+                          e.currentTarget.style.borderColor = '#d97706';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background = 'white';
+                          e.currentTarget.style.transform = 'translateX(0)';
+                          e.currentTarget.style.borderColor = 'rgba(217, 119, 6, 0.3)';
+                        }}
+                      >
+                        {fruit.name}
+                        <span style={{ fontSize: '0.8rem', color: '#78350f' }}>View recipes →</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="main-grid">
           {/* Left Column: Meal Selection */}
@@ -959,6 +1225,8 @@ export default function MealPlanner() {
                     <div>• Honeycrisp Apples</div>
                     <div>• Vegan Yogurt</div>
                     <div>• Yogurt</div>
+                    <div>• Eggs</div>
+                    <div>• Kimchi</div>
                     <div>• Sumo Oranges</div>
                     <div>• Spindrift</div>
                     <div>• Tangerine Juice</div>
@@ -1082,6 +1350,126 @@ export default function MealPlanner() {
                     </li>
                   ))}
                 </ol>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Seasonal Produce Recipe Ideas Modal */}
+        {showSeasonalInfo && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '2rem'
+          }}
+          onClick={() => setShowSeasonalInfo(null)}
+          >
+            <div 
+              style={{
+                background: 'white',
+                borderRadius: '16px',
+                padding: '2rem',
+                maxWidth: '600px',
+                width: '100%',
+                maxHeight: '80vh',
+                overflow: 'auto'
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'flex-start',
+                marginBottom: '1.5rem'
+              }}>
+                <h2 style={{
+                  fontFamily: "'Crimson Text', serif",
+                  fontSize: '2rem',
+                  color: '#2d5016',
+                  margin: 0
+                }}>
+                  {showSeasonalInfo.name}
+                </h2>
+                <button
+                  onClick={() => setShowSeasonalInfo(null)}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer',
+                    color: '#6b4423',
+                    padding: '0.25rem',
+                    lineHeight: 1
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+
+              <div style={{
+                marginBottom: '1.5rem',
+                padding: '1rem',
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                borderRadius: '8px',
+                border: '1px solid rgba(74, 124, 44, 0.2)'
+              }}>
+                <div style={{
+                  fontSize: '0.9rem',
+                  fontWeight: 600,
+                  color: '#2d5016',
+                  marginBottom: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  <span>🌱</span>
+                  <span>In Season Now</span>
+                </div>
+                <p style={{
+                  fontSize: '0.85rem',
+                  color: '#6b4423',
+                  margin: 0,
+                  lineHeight: '1.6'
+                }}>
+                  Peak freshness and flavor! This produce is currently abundant in Berkeley area farms and markets.
+                </p>
+              </div>
+
+              <div>
+                <h3 style={{
+                  fontFamily: "'Crimson Text', serif",
+                  fontSize: '1.4rem',
+                  color: '#2d5016',
+                  marginBottom: '1rem'
+                }}>
+                  Recipe Ideas
+                </h3>
+                <ul style={{
+                  margin: 0,
+                  paddingLeft: '1.5rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '0.75rem'
+                }}>
+                  {showSeasonalInfo.recipes.map((recipe, index) => (
+                    <li key={index} style={{
+                      fontSize: '0.95rem',
+                      color: '#3d3d3d',
+                      lineHeight: '1.7',
+                      paddingLeft: '0.5rem'
+                    }}>
+                      {recipe}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
