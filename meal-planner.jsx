@@ -338,83 +338,83 @@ const SEASONAL_PRODUCE = {
   winter: {
     months: [12, 1, 2],
     vegetables: [
-      { name: 'Broccoli', recipes: ['Add to stir-fries', 'Roast with garlic and lemon', 'Steam and add to pasta dishes'] },
-      { name: 'Brussels Sprouts', recipes: ['Roast with balsamic vinegar', 'Shave raw into salads', 'Pan-fry with garlic'] },
-      { name: 'Cabbage', recipes: ['Make kimchi', 'Add to kimbap', 'Sauté with tofu'] },
-      { name: 'Cauliflower', recipes: ['Roast as steaks', 'Make cauliflower rice', 'Blend into creamy soups'] },
-      { name: 'Kale', recipes: ['Massage with lemon for salads', 'Add to lentil soup', 'Sauté with garlic'] },
-      { name: 'Leeks', recipes: ['Add to lentil soup', 'Roast with potatoes', 'Make potato-leek soup'] },
-      { name: 'Mushrooms', recipes: ['Sauté with garlic (like shiitake in Indomie)', 'Add to mapo tofu', 'Make mushroom risotto'] },
-      { name: 'Spinach', recipes: ['Use in Vegan Saag', 'Add to kimbap', 'Sauté with garlic'] },
-      { name: 'Sweet Potatoes', recipes: ['Roast wedges', 'Make sweet potato tacos', 'Add to curries'] }
+      { name: 'Broccoli', season: 'Dec-Feb', recipes: ['Kenji\'s Roasted Broccoli with Garlic & Lemon (Serious Eats)', 'Tofu and Broccoli Stir-Fry (Serious Eats)', 'Add to your Vegan Saag as extra veg'] },
+      { name: 'Brussels Sprouts', season: 'Nov-Mar', recipes: ['Kenji\'s Roasted Brussels Sprouts with Kimchi & Ginger (Serious Eats)', 'Fried Brussels Sprouts with Balsamic & Honey (Serious Eats)', 'Pan-fry with garlic and finish with lemon'] },
+      { name: 'Cabbage', season: 'Year-round, peak Dec-Apr', recipes: ['Make homemade kimchi', 'Use in Impossible Bulgogi Kimbap', 'Quick-pickle with vinegar for tacos'] },
+      { name: 'Cauliflower', season: 'Oct-Apr', recipes: ['Kenji\'s Roasted Cauliflower Steaks (Serious Eats)', 'Make cauliflower "rice" for fried rice', 'Blend into creamy soups for body'] },
+      { name: 'Kale', season: 'Year-round, peak Nov-Feb', recipes: ['Massage with lemon for salads', 'Add to Easy Lentil Soup', 'Make crispy kale chips'] },
+      { name: 'Leeks', season: 'Oct-May', recipes: ['Add to Easy Lentil Soup for sweetness', 'Roast whole with potatoes', 'Make potato-leek soup'] },
+      { name: 'Mushrooms', season: 'Year-round, peak Oct-May', recipes: ['Kenji\'s Roasted Mushrooms (Serious Eats)', 'Mushroom Risotto (Serious Eats)', 'Sauté for Indomie with Shiitake'] },
+      { name: 'Spinach', season: 'Year-round, peak Oct-May', recipes: ['Use in Vegan Saag recipe', 'Add to Impossible Bulgogi Kimbap', 'Wilt into pasta with garlic'] },
+      { name: 'Sweet Potatoes', season: 'Sep-Dec', recipes: ['Roast wedges with smoked paprika', 'Make sweet potato tacos', 'Add cubed to curry dishes'] }
     ],
     fruits: [
-      { name: 'Apples', recipes: ['Eat fresh', 'Bake with cinnamon', 'Add to salads'] },
-      { name: 'Avocados', recipes: ['Use in fajita tacos', 'Make guacamole', 'Add to salads'] },
-      { name: 'Grapefruit', recipes: ['Segment for salads', 'Juice for drinks', 'Eat fresh'] },
-      { name: 'Kiwis', recipes: ['Eat fresh', 'Add to smoothies', 'Top yogurt'] },
-      { name: 'Oranges/Tangerines', recipes: ['Eat fresh', 'Juice for drinks', 'Zest for recipes'] },
-      { name: 'Pears', recipes: ['Eat fresh', 'Poach in wine', 'Add to salads'] },
-      { name: 'Persimmons', recipes: ['Eat fresh when ripe', 'Add to salads', 'Make persimmon bread'] },
-      { name: 'Pomegranates', recipes: ['Sprinkle seeds on salads', 'Add to grain bowls', 'Juice for drinks'] }
+      { name: 'Apples', season: 'Sep-May', recipes: ['Eat fresh with nut butter', 'Bake with cinnamon', 'Slice thin for salads'] },
+      { name: 'Avocados', season: 'Year-round, peak winter-spring', recipes: ['Use in Fajita Tacos', 'Make guacamole', 'Add to Arugula Tofu Salad'] },
+      { name: 'Grapefruit', season: 'Nov-Jun', recipes: ['Segment for winter salads', 'Juice for cocktails', 'Broil with brown sugar'] },
+      { name: 'Kiwis', season: 'Oct-May', recipes: ['Eat fresh', 'Add to smoothies', 'Top yogurt bowls'] },
+      { name: 'Oranges/Tangerines', season: 'Nov-May', recipes: ['Eat fresh sumo oranges', 'Juice for tangerine juice', 'Zest for recipes'] },
+      { name: 'Pears', season: 'Aug-Feb', recipes: ['Eat fresh', 'Poach in red wine', 'Add to arugula salads'] },
+      { name: 'Persimmons', season: 'Oct-Feb', recipes: ['Eat Fuyu crisp, Hachiya soft', 'Slice into salads', 'Make persimmon bread'] },
+      { name: 'Pomegranates', season: 'Sep-Jan', recipes: ['Sprinkle seeds on salads', 'Add to grain bowls', 'Make fresh juice'] }
     ]
   },
   spring: {
     months: [3, 4, 5],
     vegetables: [
-      { name: 'Artichokes', recipes: ['Steam and serve with lemon aioli', 'Grill halved artichokes', 'Add hearts to pasta'] },
-      { name: 'Asparagus', recipes: ['Roast with olive oil', 'Grill with lemon', 'Add to stir-fries'] },
-      { name: 'Fava Beans', recipes: ['Blanch and add to salads', 'Purée for dips', 'Sauté with garlic'] },
-      { name: 'Peas', recipes: ['Add to pasta', 'Purée for soup', 'Stir-fry with other vegetables'] },
-      { name: 'Radishes', recipes: ['Slice for salads', 'Roast whole', 'Pickle for tacos'] },
-      { name: 'Spring Onions', recipes: ['Grill whole', 'Add to salads', 'Use like scallions'] },
-      { name: 'Strawberries', recipes: ['Eat fresh', 'Make strawberry salad', 'Add to smoothies'] },
-      { name: 'Lettuce', recipes: ['Make salads', 'Use as taco wraps', 'Grill romaine hearts'] }
+      { name: 'Artichokes', season: 'Mar-May', recipes: ['Steam whole & serve with lemon aioli', 'Grill halved artichokes', 'Add hearts to pasta'] },
+      { name: 'Asparagus', season: 'Feb-Jun', recipes: ['Kenji\'s Grilled Asparagus (Serious Eats)', 'Kenji\'s Braised Asparagus (Serious Eats)', 'Roast with olive oil & lemon'] },
+      { name: 'Fava Beans', season: 'Mar-Jun', recipes: ['Blanch & add to salads', 'Purée for spring dips', 'Sauté with garlic & lemon'] },
+      { name: 'Peas', season: 'Apr-Jun', recipes: ['Add fresh to pasta', 'Purée for spring soup', 'Stir-fry with other spring veg'] },
+      { name: 'Radishes', season: 'Year-round, peak Mar-Jun', recipes: ['Slice for salads', 'Roast whole with butter', 'Quick-pickle for Fajita Tacos'] },
+      { name: 'Spring Onions', season: 'Mar-Jun', recipes: ['Grill whole as side dish', 'Chop for salads', 'Use like scallions in any recipe'] },
+      { name: 'Strawberries', season: 'Apr-Sep', recipes: ['Eat fresh', 'Make strawberry salad', 'Macerate with balsamic'] },
+      { name: 'Lettuce', season: 'Year-round, peak Mar-May', recipes: ['Make spring salads', 'Use as taco wraps', 'Grill romaine hearts'] }
     ],
     fruits: [
-      { name: 'Strawberries', recipes: ['Eat fresh', 'Make fruit salad', 'Top yogurt'] },
-      { name: 'Avocados', recipes: ['Use in fajita tacos', 'Make guacamole', 'Add to salads'] },
-      { name: 'Lemons', recipes: ['Use in lentil soup gremolata', 'Make lemonade', 'Zest for recipes'] }
+      { name: 'Strawberries', season: 'Apr-Sep', recipes: ['Eat fresh berries', 'Make fruit salad', 'Top yogurt'] },
+      { name: 'Avocados', season: 'Year-round, peak winter-spring', recipes: ['Use in Fajita Tacos', 'Make guacamole', 'Add to grain bowls'] },
+      { name: 'Lemons', season: 'Year-round', recipes: ['Use in Easy Lentil Soup gremolata', 'Make lemonade', 'Zest for brightening dishes'] }
     ]
   },
   summer: {
     months: [6, 7, 8],
     vegetables: [
-      { name: 'Tomatoes', recipes: ['Use in vodka pasta', 'Make tomato bisque', 'Slice for salads'] },
-      { name: 'Bell Peppers', recipes: ['Use in fajita tacos', 'Roast and blend into sauces', 'Stuff and bake'] },
-      { name: 'Corn', recipes: ['Grill and top with lime', 'Make corn salsa', 'Add to tacos'] },
-      { name: 'Cucumbers', recipes: ['Use in kimbap', 'Make cucumber salad', 'Add to cold noodles'] },
-      { name: 'Eggplant', recipes: ['Make baba ganoush', 'Roast with miso', 'Grill in slices'] },
-      { name: 'Green Beans', recipes: ['Blanch for salads', 'Stir-fry with garlic', 'Roast with almonds'] },
-      { name: 'Zucchini', recipes: ['Spiralize for noodles', 'Grill slices', 'Sauté with garlic'] },
-      { name: 'Summer Squash', recipes: ['Sauté with herbs', 'Grill slices', 'Add to pasta'] }
+      { name: 'Tomatoes', season: 'Jun-Sep', recipes: ['Kenji\'s 15-Min Tomato Soup (Serious Eats)', 'Use in Pasta with Vodka Sauce', 'Make Tomato Bisque recipe'] },
+      { name: 'Bell Peppers', season: 'Jul-Oct', recipes: ['Use in Fajita Tacos recipe', 'Roast & blend into sauces', 'Stuff with rice & beans'] },
+      { name: 'Corn', season: 'May-Sep', recipes: ['Grill & top with lime & chili', 'Make corn salsa for tacos', 'Add to summer salads'] },
+      { name: 'Cucumbers', season: 'May-Sep', recipes: ['Use in Impossible Bulgogi Kimbap', 'Make cucumber salad', 'Quick-pickle for sides'] },
+      { name: 'Eggplant', season: 'Jul-Oct', recipes: ['Make baba ganoush', 'Roast with miso glaze', 'Grill in thick slices'] },
+      { name: 'Green Beans', season: 'May-Oct', recipes: ['Blanch for salads', 'Stir-fry with garlic', 'Roast with almonds'] },
+      { name: 'Zucchini', season: 'May-Sep', recipes: ['Spiralize for noodles', 'Grill thick slices', 'Sauté with garlic & basil'] },
+      { name: 'Summer Squash', season: 'May-Sep', recipes: ['Sauté with fresh herbs', 'Grill alongside peppers', 'Add to summer pasta'] }
     ],
     fruits: [
-      { name: 'Berries', recipes: ['Eat fresh', 'Make fruit salad', 'Top yogurt'] },
-      { name: 'Peaches', recipes: ['Grill with balsamic', 'Eat fresh', 'Add to salads'] },
-      { name: 'Plums', recipes: ['Eat fresh', 'Roast with sugar', 'Make compote'] },
-      { name: 'Watermelon', recipes: ['Eat fresh', 'Make agua fresca', 'Add to salads'] },
-      { name: 'Cherries', recipes: ['Eat fresh', 'Pit for desserts', 'Add to smoothies'] }
+      { name: 'Berries', season: 'May-Sep', recipes: ['Eat fresh berries', 'Make mixed berry salad', 'Top yogurt & oatmeal'] },
+      { name: 'Peaches', season: 'May-Sep', recipes: ['Grill with balsamic', 'Eat fresh', 'Add to summer salads'] },
+      { name: 'Plums', season: 'May-Oct', recipes: ['Eat fresh', 'Roast with brown sugar', 'Make plum compote'] },
+      { name: 'Watermelon', season: 'May-Aug', recipes: ['Eat fresh & chilled', 'Make agua fresca', 'Add to feta salads'] },
+      { name: 'Cherries', season: 'May-Jul', recipes: ['Eat fresh', 'Pit for desserts', 'Add to smoothies'] }
     ]
   },
   fall: {
     months: [9, 10, 11],
     vegetables: [
-      { name: 'Butternut Squash', recipes: ['Roast and purée for soup', 'Cube and roast', 'Add to pasta'] },
-      { name: 'Pumpkin', recipes: ['Roast for purée', 'Make pumpkin curry', 'Roast seeds for snacks'] },
-      { name: 'Broccoli', recipes: ['Roast with garlic', 'Add to stir-fries', 'Steam for side dishes'] },
-      { name: 'Cauliflower', recipes: ['Roast whole', 'Make cauliflower rice', 'Blend into soups'] },
-      { name: 'Carrots', recipes: ['Use in lentil soup', 'Roast with herbs', 'Julienne for kimbap'] },
-      { name: 'Beets', recipes: ['Roast and serve with greens', 'Pickle for salads', 'Make beet hummus'] },
-      { name: 'Kale', recipes: ['Massage for salads', 'Add to soups', 'Make kale chips'] },
-      { name: 'Sweet Potatoes', recipes: ['Roast wedges', 'Make sweet potato curry', 'Mash as side dish'] }
+      { name: 'Butternut Squash', season: 'Sep-Feb', recipes: ['Roast & purée for soup', 'Cube & roast with sage', 'Add to fall pasta dishes'] },
+      { name: 'Pumpkin', season: 'Sep-Nov', recipes: ['Roast for purée', 'Make pumpkin curry', 'Roast seeds for snacking'] },
+      { name: 'Broccoli', season: 'Oct-Apr', recipes: ['Kenji\'s Roasted Broccoli (Serious Eats)', 'Add to stir-fries', 'Steam for simple sides'] },
+      { name: 'Cauliflower', season: 'Sep-Nov', recipes: ['Roast whole head', 'Make cauliflower rice', 'Blend into fall soups'] },
+      { name: 'Carrots', season: 'Year-round, peak Sep-Dec', recipes: ['Use in Easy Lentil Soup', 'Roast with herbs', 'Julienne for Kimbap'] },
+      { name: 'Beets', season: 'Jun-Oct', recipes: ['Roast & serve with greens', 'Pickle for salads', 'Make beet hummus'] },
+      { name: 'Kale', season: 'Year-round, peak Nov-Feb', recipes: ['Massage for fall salads', 'Add to soups', 'Make crispy kale chips'] },
+      { name: 'Sweet Potatoes', season: 'Sep-Dec', recipes: ['Roast wedges with spices', 'Make sweet potato curry', 'Mash as side dish'] }
     ],
     fruits: [
-      { name: 'Apples', recipes: ['Eat fresh', 'Bake in desserts', 'Make applesauce'] },
-      { name: 'Pears', recipes: ['Eat fresh', 'Poach in wine', 'Add to salads'] },
-      { name: 'Persimmons', recipes: ['Eat when soft', 'Add to salads', 'Make persimmon bread'] },
-      { name: 'Pomegranates', recipes: ['Sprinkle on salads', 'Add to grain bowls', 'Make juice'] },
-      { name: 'Figs', recipes: ['Eat fresh', 'Roast with balsamic', 'Add to cheese plates'] }
+      { name: 'Apples', season: 'Aug-Nov', recipes: ['Eat fresh Honeycrisp', 'Bake in fall desserts', 'Make applesauce'] },
+      { name: 'Pears', season: 'Aug-Feb', recipes: ['Eat fresh', 'Poach in wine with spices', 'Add to fall salads'] },
+      { name: 'Persimmons', season: 'Oct-Feb', recipes: ['Eat when soft & ripe', 'Slice into salads', 'Make persimmon bread'] },
+      { name: 'Pomegranates', season: 'Sep-Jan', recipes: ['Sprinkle seeds on salads', 'Add to grain bowls', 'Make fresh juice'] },
+      { name: 'Figs', season: 'Jun-Sep', recipes: ['Eat fresh', 'Roast with balsamic', 'Serve with cheese'] }
     ]
   }
 };
@@ -922,9 +922,6 @@ export default function MealPlanner() {
                           cursor: 'pointer',
                           textAlign: 'left',
                           fontFamily: 'DM Sans, sans-serif',
-                          fontSize: '0.95rem',
-                          fontWeight: 500,
-                          color: '#2d5016',
                           transition: 'all 0.2s ease',
                           display: 'flex',
                           alignItems: 'center',
@@ -941,7 +938,10 @@ export default function MealPlanner() {
                           e.currentTarget.style.borderColor = 'rgba(74, 124, 44, 0.2)';
                         }}
                       >
-                        {veg.name}
+                        <div>
+                          <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#2d5016' }}>{veg.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#6b4423', marginTop: '0.25rem' }}>📅 {veg.season}</div>
+                        </div>
                         <span style={{ fontSize: '0.8rem', color: '#6b4423' }}>View recipes →</span>
                       </button>
                     ))}
@@ -976,9 +976,6 @@ export default function MealPlanner() {
                           cursor: 'pointer',
                           textAlign: 'left',
                           fontFamily: 'DM Sans, sans-serif',
-                          fontSize: '0.95rem',
-                          fontWeight: 500,
-                          color: '#92400e',
                           transition: 'all 0.2s ease',
                           display: 'flex',
                           alignItems: 'center',
@@ -995,7 +992,10 @@ export default function MealPlanner() {
                           e.currentTarget.style.borderColor = 'rgba(217, 119, 6, 0.3)';
                         }}
                       >
-                        {fruit.name}
+                        <div>
+                          <div style={{ fontSize: '0.95rem', fontWeight: 600, color: '#92400e' }}>{fruit.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#78350f', marginTop: '0.25rem' }}>📅 {fruit.season}</div>
+                        </div>
                         <span style={{ fontSize: '0.8rem', color: '#78350f' }}>View recipes →</span>
                       </button>
                     ))}
@@ -1388,7 +1388,7 @@ export default function MealPlanner() {
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'flex-start',
-                marginBottom: '1.5rem'
+                marginBottom: '1rem'
               }}>
                 <h2 style={{
                   fontFamily: "'Crimson Text', serif",
@@ -1422,7 +1422,7 @@ export default function MealPlanner() {
                 border: '1px solid rgba(74, 124, 44, 0.2)'
               }}>
                 <div style={{
-                  fontSize: '0.9rem',
+                  fontSize: '1rem',
                   fontWeight: 600,
                   color: '#2d5016',
                   marginBottom: '0.5rem',
@@ -1431,7 +1431,7 @@ export default function MealPlanner() {
                   gap: '0.5rem'
                 }}>
                   <span>🌱</span>
-                  <span>In Season Now</span>
+                  <span>In Season: {showSeasonalInfo.season}</span>
                 </div>
                 <p style={{
                   fontSize: '0.85rem',
@@ -1439,7 +1439,7 @@ export default function MealPlanner() {
                   margin: 0,
                   lineHeight: '1.6'
                 }}>
-                  Peak freshness and flavor! This produce is currently abundant in Berkeley area farms and markets.
+                  Peak freshness and flavor! This produce is currently abundant in Berkeley area farms and markets during these months.
                 </p>
               </div>
 
@@ -1450,7 +1450,7 @@ export default function MealPlanner() {
                   color: '#2d5016',
                   marginBottom: '1rem'
                 }}>
-                  Recipe Ideas
+                  Recipe Ideas from Kenji Lopez-Alt
                 </h3>
                 <ul style={{
                   margin: 0,
@@ -1470,6 +1470,18 @@ export default function MealPlanner() {
                     </li>
                   ))}
                 </ul>
+              </div>
+
+              <div style={{
+                marginTop: '1.5rem',
+                padding: '1rem',
+                background: '#fef3c7',
+                borderRadius: '8px',
+                fontSize: '0.85rem',
+                color: '#78350f',
+                lineHeight: '1.5'
+              }}>
+                <strong>💡 Tip:</strong> Search for "{showSeasonalInfo.name} Kenji Lopez-Alt Serious Eats" to find the full recipes and techniques!
               </div>
             </div>
           </div>
